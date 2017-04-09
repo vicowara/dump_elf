@@ -70,7 +70,7 @@ void dump_stringtbl(unsigned char *str, Elf64_Shdr *shdr){
     unsigned long total_len = 0;
 
     while(total_len < shdr->sh_size){
-        printf("%03lu: %s\n", (&tbl_head[total_len] - tbl_head), &tbl_head[total_len]);
+        printf("  %03lu: %s\n", (&tbl_head[total_len] - tbl_head), &tbl_head[total_len]);
         total_len += strlen((char *)&tbl_head[total_len]) + 1;
     }
     printf("\n");

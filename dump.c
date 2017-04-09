@@ -66,12 +66,12 @@ void dump_shdr(Elf64_Shdr *shdr, int e_shnum){
 }
 
 void dump_stringtbl(unsigned char *str, Elf64_Shdr *shdr){
-    int index = 0;
-    unsigned long total_len = 1;
+    unsigned char *tbl_head = &str[shdr->sh_offset];
+    unsigned long total_len = 0;
 
     while(total_len < shdr->sh_size){
-        printf("%d: %s\n", index++, &str[shdr->sh_offset + total_len]);
-        total_len += strlen((char *)&str[shdr->sh_offset + total_len]) + 1;
+        printf("%03lu: %s\n", (&tbl_head[total_len] - tbl_head), &tbl_head[total_len]);
+        total_len += strlen((char *)&tbl_head[total_len]) + 1;
     }
     printf("\n");
 }

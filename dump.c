@@ -102,7 +102,7 @@ int main(void){
     phdr = (Elf64_Phdr *)(&buf[ehdr->e_phoff]);
     dump_phdr(phdr, ehdr->e_phnum);
 
-    printf("Section header(equivalent as readelf -s)\n");
+    printf("Section header(equivalent as readelf -S)\n");
     shdr = (Elf64_Shdr *)(&buf[ehdr->e_shoff]);
     dump_shdr(shdr, ehdr->e_shnum);
 

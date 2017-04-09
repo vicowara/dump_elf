@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <assert.h>
@@ -64,6 +65,17 @@ void dump_shdr(Elf64_Shdr *shdr, int e_shnum){
     printf("\n");
 }
 
+void dump_stringtbl(unsigned char *str, Elf64_Shdr *shdr){
+    int index = 0;
+    unsigned long total_len = 1;
+
+    while(total_len < shdr->sh_size){
+        printf("%d: %s\n", index++, &str[shdr->sh_offset + total_len]);
+        total_len += strlen((char *)&str[shdr->sh_offset + total_len]) + 1;
+    }
+    printf("\n");
+}
+
 int main(void){
     Elf64_Ehdr *ehdr;
     Elf64_Phdr *phdr;
@@ -93,6 +105,9 @@ int main(void){
     printf("Section header(equivalent as readelf -s)\n");
     shdr = (Elf64_Shdr *)(&buf[ehdr->e_shoff]);
     dump_shdr(shdr, ehdr->e_shnum);
+
+    printf("String table\n");
+    dump_stringtbl(buf, &shdr[ehdr->e_shstrndx]);
 
     return 0;
 }

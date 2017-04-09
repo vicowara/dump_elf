@@ -8,6 +8,12 @@
 #define DUMP(x) do {printf("  " #x " = %u(0x%x)\n", (uint32_t)x, (uint32_t)x);} while(0);
 
 void dump_ehdr(Elf64_Ehdr *ehdr){
+    int i;
+    printf("  ehdr->e_ident = ");
+    for (i = 0; i < EI_NIDENT; i++) {
+        printf("%02x ", ehdr->e_ident[i]);
+    }
+    printf("\n");
     DUMP(ehdr->e_type);
     DUMP(ehdr->e_machine);
     DUMP(ehdr->e_version);
